@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Chat</title>
+</head>
+<body>
+    <div class="container">
+        <div>
+            <div class="card">
+                <div class="card-header">
+                    <h4>Chat</h4>
+                </div>
+                <div id="chat" class="card-body"></div>
+                <form id="message-form" class="card-footer">
+                    <input type="text" id="message" class="form-control">
+                    <button class="sumbit">Enviar</button>
+                </form>
+            </div>
+
+        </div>
+
+    </div>
+    <script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
+    <script src="/socket.io/socket.io.js" charset="utf-8"></script>
+    <script src="/public/main.js" charset="utf-8"></script>
+</body>
+</html>
