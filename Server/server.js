@@ -1,21 +1,15 @@
-const http = require("http");
-const express = require("express");
-const socketio = require("socket.io");
-const path = require("path");
-
+const path = require('path')
+const express = require('express');
 const app = express();
+const http = require('http');
 const server = http.createServer(app);
-const io = socketio.listen(server);
+const { Server } = require("socket.io");
+const io = new Server(server);
 
-
-app.set('port', process.env.PORT || 8000)
+app.use(express.static(path.join(__dirname, 'public')))
 
 require('./sockets')(io)
 
-// Le paso el html
-app.use(express.static(path.join(__dirname + "public")));
-
-// Iniciando el server
-server.listen(app.get('port'), () => {
-  console.log("Server Inicializado en el " ,app.get('port'));
+server.listen(3000, () => {
+  console.log('listening on *:3000');
 });
