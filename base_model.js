@@ -2,7 +2,11 @@
 
 class BaseModel {
     constructor() {
-        this.created_at = new Date(); // esto almacena un objeto date con la fecha actual
+        this._created_at = new Date(); // esto almacena un objeto date con la fecha actual
+    }
+
+    get created_at() {
+        return this._created_at.toISOString().slice(0, 19);
     }
 }
 

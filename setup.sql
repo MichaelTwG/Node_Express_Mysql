@@ -1,6 +1,6 @@
 CREATE DATABASE IF NOT EXISTS DiscordTrucho;
-CREATE USER IF NOT EXISTS 'dev'@'localhost' IDENTIFIED BY 'debpass';
-GRANT ALL PRIVILEGES ON DiscordTrucho.* TO 'dev'@'localhost';
+CREATE USER IF NOT EXISTS 'dev'@'localhost' IDENTIFIED BY 'devpass';
+GRANT ALL PRIVILEGES ON DiscordTrucho.* TO 'dev'@'%';
 
 FLUSH PRIVILEGES;
 
