@@ -1,13 +1,12 @@
-// clase base de las que heredan el resto de las clases
-
+#!/usr/bin/node
 class BaseModel {
-    constructor() {
-        this._created_at = new Date(); // esto almacena un objeto date con la fecha actual
+    constructor () {
+        this.createdAt = new Date();
     }
 
-    get created_at() {
-        return this._created_at.toISOString().slice(0, 19);
+    get createdAt () {
+        return this.createdAt.toISOString().slice(0, 19);
     }
 }
 
-module.exports = BaseModel; // exportar la clase para poder utilizarla en otros archivos
+module.exports = BaseModel;
