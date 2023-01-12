@@ -1,6 +1,6 @@
 #!/usr/bin/node
 const mysql = require("mysql");
-
+const fs = require("fs");
 class Storage {
     constructor (connection) {
         this.connection = connection;
@@ -10,7 +10,11 @@ class Storage {
         if (table === "user") {
             const query = `INSERT INTO users (id, name) VALUES ("${obj.id}", "${obj.name}");`;
         } else if (table === "msg") {
-            const query = `INSERT INTO msgs (sen, rec, txt) VALUES ("${obj.sen}", "${obj.rec}", "${obj.txt}");`
+            fs.appendFile(`/chats/${obj.sen}.${obj.rec}`, ` ${obj.txt} |`, 'utf8', (err) => {
+                if (err) {
+                    console.log(err);
+                }
+            });
         }
 
         this.connection.query(query, (err, res, fields) => {
