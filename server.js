@@ -1,4 +1,9 @@
 #!/usr/bin/node
+const { v4: uuidv4 } = require("uuid");
+const session = require('express-session');
+const flash = require('connect-flash');
+const bodyParser = require('body-parser');
+const User = require("./models/user");
 const cors = require('cors');
 const path = require('path');
 const express = require('express');
@@ -15,6 +20,9 @@ const login = Router();
 const chat = Router();
 const singup = Router();
 
+app.use(session({ secret: uuidv4(), cookie: { maxAge: 60000 }}));
+app.use(flash());
+app.use(bodyParser.json());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use('/login', login);
@@ -49,6 +57,53 @@ app.get('/users', (req, res) => {
     });
 });
 
+app.post('/usercreate', (req, res) => {
+
+    const UName = req.body.UName;
+    const query = "SELECT * from users";
+    storage.connection.query(query, (err, result, fields) => {
+        if(err) {
+            console.log(err);
+            return;
+        }
+        for (const user of result) {
+            if (user.name === UName) {
+                res.send({ status: "failed" });
+                return;
+            };
+        };
+        const user1 = new User(UName);
+        storage.new(user1, "user");
+        res.send({ status: "success", user: {name: user1.name, created_at: user1.createdAt}});
+    });
+
+
+});
+
+app.post('/login', (req, res) => {
+
+    const UName = req.body.UName;
+    const query = "SELECT * from users";
+    storage.connection.query(query, (err, result, fields) => {
+        if(err) {
+            console.log(err);
+            return;
+        }
+        for (const user of result) {
+            if (user.name === UName) {
+                req.session.user = { name: UName};
+
+                res.send({ status: "success"});
+                return;
+            };
+        };
+
+        res.send({ status: "failed" });
+     });
+
+
+});
+
 app.get("/", (req, res) => {
     res.redirect('login')
 });
@@ -62,6 +117,8 @@ singup.get("/", (req, res) => {
 });
 
 chat.get("/", (req, res) => {
+    const user = req.session.user;
     res.render("chat", {})
+
 });
 

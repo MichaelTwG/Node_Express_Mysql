@@ -9,6 +9,13 @@ class Storage {
     new(obj, table) {
         if (table === "user") {
             const query = `INSERT INTO users (id, name) VALUES ("${obj.id}", "${obj.name}");`;
+            
+            this.connection.query(query, (err, res, fields) => {
+                if (err) {
+                    console.log(err);
+                }
+            });
+
         } else if (table === "msg") {
             fs.appendFile(`/chats/${obj.sen}.${obj.rec}`, ` ${obj.txt} |`, 'utf8', (err) => {
                 if (err) {
@@ -16,12 +23,6 @@ class Storage {
                 }
             });
         }
-
-        this.connection.query(query, (err, res, fields) => {
-            if (err) {
-                console.log(err);
-            }
-        })
     }
 };
 
